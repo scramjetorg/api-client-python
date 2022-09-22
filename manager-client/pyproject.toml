@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "scramjet-manager-client"
+version = "0.1.1"
+description = ""
+authors = ["Scramjet.org <you@example.com>"]
+readme = "README.md"
+packages = [{include = "manager_client"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+scramjet-api-client-py = "^0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[[tool.poetry.source]]
+name = "test"
+url = "https://test.pypi.org/simple/"
+secondary = true
