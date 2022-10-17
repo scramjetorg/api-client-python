@@ -1,0 +1,2 @@
+-e ../client
+-e ../manager_client
