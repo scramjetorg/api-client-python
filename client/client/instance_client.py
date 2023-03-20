@@ -1,4 +1,5 @@
 from client.host_client import HostClient
+import json
 
 INSTANCE_INPUT_STREAM = (
     'stdin',
@@ -32,17 +33,19 @@ class InstanceClient:
         return await self.host.post(url, headers=headers, data={})
     
     async def send_event(self, event_name: str, message: str = '') -> str:
-        url = f'{self.instance_url}/event'
-        headers = {'Content-Type': 'application/json'}
-        payload = {'eventName': event_name, 'message': message}
+        url = f'{self.instance_url}/_event'
+        headers = {"Content-Type": "application/json"}
+        event_code = 5001
+        data = {'eventName': event_name, 'message': message}
+        payload = json.dumps([event_code, data])
         return await self.host.post(url, headers=headers, data=payload)
     
     async def get_next_event(self, id: str) -> str:
-        url = f'{self.instance_url}/once'
+        url = f'{self.instance_url}/once/{id}'
         return await self.host.get(url)
 
     async def get_event(self, id: str) -> str:
-        url = f'{self.instance_url}/event'
+        url = f'{self.instance_url}/event/{id}'
         return await self.host.get(url)
     
     async def get_health(self) -> str:
