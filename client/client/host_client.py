@@ -5,12 +5,12 @@ class HostClient:
     """
     A client for communicating with a host server.
 
-    Parameters:
+    Attributes
     -----------
     url : str
         The URL of the host server.
         
-    Methods:
+    Methods
     --------
     get(url: str) -> str:
 
@@ -186,6 +186,7 @@ class HostClient:
         url = f'/instances'
         return await self.get(url)
 
+
     async def send_sequence(self, file, app_config = None) -> str:
         """
         Sends a binary Sequence file to the server.
@@ -206,7 +207,7 @@ class HostClient:
 
     async def get_sequence(self, id: str) -> str:
         """
-        Sends a GET request to get the Sequence with the specified ID.
+        Get the Sequence with the specified ID.
 
         Parameters
         -----------
@@ -222,7 +223,7 @@ class HostClient:
 
     async def delete_sequence(self, id: str) -> str:
         """
-        Sends a DELETE request to delete the Sequence with the specified ID and returns the response body.
+        Delete the Sequence with the specified ID and returns the response body.
 
         Parameters
         ------------
@@ -259,10 +260,6 @@ class HostClient:
         """
         Sends a GET request to check the load of the host and returns the response body.
 
-        Parameters
-        -----------
-        None.
-
         Returns
         -----------
         str: 
@@ -275,10 +272,6 @@ class HostClient:
         """
         Sends a GET request to retrieve the version of the host.
 
-        Parameters
-        ------------
-        None.
-
         Returns
         -----------
         str:
@@ -290,10 +283,6 @@ class HostClient:
     async def get_log_stream(self) -> str:
         """
         Sends a GET request to retrieve the log stream of the host and returns the response body.
-
-        Parameters
-        -----------
-        None.
 
         Returns
         -----------
