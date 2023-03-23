@@ -35,7 +35,7 @@ The package enables you to use Python API to manage and interact with Sequences/
 
 ## Installation
 
-Scramjet Framework is available on PyPI, You can install it with simple pip command:
+Scramjet API Python Client is available on PyPI, You can install it with simple pip command:
 
 ```bash
 pip install scramjet-api-client
