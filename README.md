@@ -65,7 +65,7 @@ ClientUtils.setDefaultHeaders({'Authorization': f'Bearer {token}'})
 async def main():
     host = HostClient(f'{api_base}/space/{space_id}/api/v1/sth/sth-0/api/v1')
 
-    # send sequence in .tar.gz and get it's uniqe id
+    # send sequence (.tar.gz) and get it's uniqe id
     seq_id = await host.send_sequence('my_cool_sequence.tar.gz')
     seq_id = json.loads(seq_id)
 
@@ -74,7 +74,7 @@ async def main():
     inst_id = await seq_client.start()
     inst_id = json.loads(inst_id)
 
-    # creating an Instance Client for interaction with running Sequence 
+    # create an Instance Client and get information about particular Instance
     my_inst_client = InstanceClient(inst_id['id'], host)
     inst_info = await my_inst_client.get_info()
     print(inst_info)
@@ -111,7 +111,7 @@ Next I have to initialize, the host:
 ```python
 host = HostClient(f'{api_base}/space/{space_id}/api/v1/sth/sth-0/api/v1')
 ```
-Then send my sequence (you can find some example sequences [here](https://github.com/scramjetorg/platform-samples):
+Then send the Sequence (you can find some example Sequences [here](https://github.com/scramjetorg/platform-samples):
 
 ```python3
 seq_id = await host.send_sequence('my_cool_sequence.tar.gz')
