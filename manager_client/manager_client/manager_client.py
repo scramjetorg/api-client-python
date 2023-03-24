@@ -1,6 +1,5 @@
 from client.host_client import HostClient
 from urllib.parse import urlparse
-
 import aiohttp
 
 

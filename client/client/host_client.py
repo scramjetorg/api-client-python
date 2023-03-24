@@ -1,6 +1,7 @@
 import aiohttp
 from urllib.parse import urlparse
 
+
 class HostClient:
     """
     A client for communicating with a host server.
@@ -169,7 +170,7 @@ class HostClient:
         Returns
         ----------
         str:
-            The text of the response.
+            String with informations about all Sequences.
         """
         url = f'/sequences'
         return await self.get(url)
@@ -181,7 +182,7 @@ class HostClient:
         Returns
         ----------
         str: 
-            The text of the response.
+            String with informations about all Instances.
         """
         url = f'/instances'
         return await self.get(url)
@@ -199,7 +200,7 @@ class HostClient:
         Returns
         ----------
         str: 
-            The text of the response.
+            String with the Sequence ID.
         """
         url = f'/sequence'
         data = await self.get_data(file)
