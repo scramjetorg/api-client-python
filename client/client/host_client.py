@@ -1,27 +1,9 @@
-import aiohttp
-from urllib.parse import urlparse
+from client_utils.base_client import BaseClient
 
-class HostClient:
+
+class HostClient(BaseClient):
     def __init__(self, url: str) -> None:
-        self.url = urlparse(url)
-
-    async def get(self, url: str) -> str:
-        async with aiohttp.ClientSession() as session:
-            url = f'{self.url.geturl()}{url}'
-            async with session.get(url) as resp:
-                return await resp.text()
-    
-    async def post(self, url: str, headers: str = None, data=None, config=None) -> str:
-        async with aiohttp.ClientSession() as session:
-            url = f'{self.url.geturl()}{url}'
-            async with session.post(url, headers=headers, data=data, params=config) as resp:
-                return await resp.text()
-    
-    async def delete(self, url: str, headers: str = None) -> str:
-        async with aiohttp.ClientSession() as session:
-            url = f'{self.url.geturl()}{url}'
-            async with session.delete(url, headers=headers) as resp:
-                return await resp.text()
+        super().__init__(url=url)
     
     async def get_data(self, seq_path: str) -> bytes:
         with open(seq_path, 'rb') as f:
@@ -59,18 +41,6 @@ class HostClient:
 
     async def get_instance_info(self, id: str) -> str:
         url = f'/instance/{id}'
-        return await self.get(url)
-
-    async def get_load_check(self) -> str:
-        url = f'/load-check'
-        return await self.get(url)
-
-    async def get_version(self) -> str:
-        url = f'/version'
-        return await self.get(url)
-   
-    async def get_log_stream(self) -> str:
-        url = f'/log'
         return await self.get(url)
 
     async def send_named_data(self, topic: str, stream: str, content_type: str, end: bool):

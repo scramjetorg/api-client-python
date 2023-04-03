@@ -1,6 +1,7 @@
 from client.host_client import HostClient
 import json
 
+
 INSTANCE_INPUT_STREAM = (
     'stdin',
     'input'
@@ -12,7 +13,6 @@ INSTANCE_OUTPUT_STREAM = (
     'output',
     'log'
 )
-
 
 class InstanceClient:
     def __init__(self, id: str, host: HostClient) -> None:

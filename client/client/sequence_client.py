@@ -1,6 +1,7 @@
 from client.host_client import HostClient
 from client.instance_client import InstanceClient
 
+
 class SequenceClient:
     def __init__(self, id: str, host: HostClient) -> None:
         self.id = id
