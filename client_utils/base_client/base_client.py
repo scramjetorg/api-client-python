@@ -19,6 +19,13 @@ class BaseClient:
             async with session.get(url) as resp:
                 return await resp.text()
 
+    async def get_stream(self, url: str, headers={})-> str:
+            async with aiohttp.ClientSession(headers={**BaseClient.headers, **headers}) as session:
+                url=url_normalize(f'{self.api_base}/{url}')
+                async with session.get(url) as response:
+                    async for line in response.content:
+                        yield line.decode('utf-8')
+
     async def post(self, url: str, headers = {}, data=None, config=None) -> str:
         async with aiohttp.ClientSession(headers={**BaseClient.headers, **headers}) as session:
             url=url_normalize(f'{self.api_base}/{url}')

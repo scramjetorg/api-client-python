@@ -16,12 +16,6 @@ class HostClient(BaseClient):
         }
         config = { 'parse': options.get('parse_response') }
         return await self.post(url, headers, stream, config)
-    
-    async def get_stream(self, url: str, options: dict)-> str:
-        headers = {
-            'content-type': options.get('type')
-        }
-        return await self.get(url, headers)
  
     async def list_sequences(self) -> str:
         url = f'/sequences'
@@ -58,4 +52,4 @@ class HostClient(BaseClient):
         return await self.send_stream(f'topic/{topic}', stream, options=data)
 
     async def get_named_data(self, topic: str):
-        return await self.get(f'topic/{topic}')
+        return self.get_stream(f'topic/{topic}')
