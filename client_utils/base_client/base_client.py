@@ -54,7 +54,7 @@ class BaseClient:
    
     async def get_log_stream(self) -> str:
         url = f'log'
-        return await self.get(url)
+        return self.get_stream(url)
     
     async def get_config(self) -> str:
         url = f'config'
