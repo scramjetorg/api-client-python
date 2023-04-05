@@ -38,15 +38,15 @@ class BaseClient:
                 return await resp.text() 
 
     async def get_load_check(self) -> str:
-        url = f'/load-check'
+        url = f'load-check'
         return await self.get(url)
 
     async def get_version(self) -> str:
-        url = f'/version'
+        url = f'version'
         return await self.get(url)
    
     async def get_log_stream(self) -> str:
-        url = f'/log'
+        url = f'log'
         return await self.get(url)
     
     async def get_config(self) -> str:

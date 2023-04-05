@@ -20,6 +20,9 @@ class InstanceClient:
         self.host = host
         self.instance_url = f'instance/{id}'
 
+    def __repr__(self) -> str:
+        return f'host: {self.host}, id: {self.id}, instance_url: {self.instance_url}'
+
     #TODO: 500
     async def stop(self, timeout: int = 7000, can_keep_alive: bool = False):
         url = f'{self.instance_url}/_stop'
@@ -50,7 +53,7 @@ class InstanceClient:
     
     async def get_health(self) -> str:
         url = f'{self.instance_url}/health'
-        return await self.__get(url)
+        return await self.host.get(url)
 
     async def get_info(self) -> str:
         url = f'{self.instance_url}'

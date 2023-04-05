@@ -7,7 +7,7 @@ class ManagerClient(BaseClient):
         super().__init__(url=url)
 
     async def get_host_client(self, id: str, host_api_base: str = '/api/v1') -> HostClient:
-        return HostClient(f'{self.url.geturl()}/sth/{id}{host_api_base}')
+        return HostClient(f'{self.url}/sth/{id}{host_api_base}')
 
     async def get_hosts(self) -> str:
         url = f'list'

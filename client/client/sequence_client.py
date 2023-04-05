@@ -8,6 +8,9 @@ class SequenceClient:
         self.host = host
         self.sequence_url = f'/sequence/{id}'
     
+    def __repr__(self) -> str:
+        return f'host: {self.host}, id: {self.id}, sequence_url: {self.sequence_url}'
+
     async def start(self) -> str:
         url = f'{self.sequence_url}/start'
         headers = {'Content-Type': 'application/json'}
