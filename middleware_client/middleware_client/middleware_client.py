@@ -11,4 +11,4 @@ class MiddlewareClient(BaseClient):
 
     async def get_managers(self) -> str:
         url = f'spaces'
-        return await self.get(url)
+        return await self._get(url)

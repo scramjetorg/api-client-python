@@ -11,17 +11,17 @@ class ManagerClient(BaseClient):
 
     async def get_hosts(self) -> str:
         url = f'list'
-        return await self.get(url)
+        return await self._get(url)
     
     async def get_sequences(self) -> str:
         url = f'sequences'
-        return await self.get(url)
+        return await self._get(url)
     
     async def get_instances(self) -> str:
         url = f'instances'
-        return await self.get(url)
+        return await self._get(url)
 
     #TODO: to fix
     async def get_named_data(self, topic: str) -> str:
         url = f'topic/{topic}'
-        return await self.get(url)
+        return await self._get(url)

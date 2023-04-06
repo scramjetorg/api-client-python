@@ -15,20 +15,20 @@ class HostClient(BaseClient):
             'x-end-stream': options.get('end')
         }
         config = { 'parse': options.get('parse_response') }
-        return await self.post(url, headers, stream, config)
+        return await self._post(url, headers, stream, config)
  
     async def list_sequences(self) -> str:
         url = f'/sequences'
-        return await self.get(url)
+        return await self._get(url)
     
     async def list_instances(self) -> str:
         url = f'instances'
-        return await self.get(url)
+        return await self._get(url)
 
     async def send_sequence(self, file, app_config = None) -> str:
         url = f'sequence'
-        data = await self.get_data(file)
-        resp = await self.post(url, data=data)
+        data = await self._get_data(file)
+        resp = await self._post(url, data=data)
         json_resp = json.loads(resp)
         if 'error' in json_resp:
             raise Exception(json_resp.get('error'))
@@ -36,20 +36,20 @@ class HostClient(BaseClient):
 
     async def get_sequence(self, id: str) -> str:
         url = f'sequence/{id}'
-        return await self.get(url)
+        return await self._get(url)
 
     async def delete_sequence(self, id: str) -> str:
         url = f'sequence/{id}'
         headers = {'Content-Type': 'application/json'}
-        return await self.delete(url, headers=headers)
+        return await self._delete(url, headers=headers)
 
     async def get_instance_info(self, id: str) -> str:
         url = f'instance/{id}'
-        return await self.get(url)
+        return await self._get(url)
 
     async def send_named_data(self, topic: str, stream: str, content_type: str, end: bool):
         data = {'type': content_type, 'end': str(end), 'parse_response': 'stream'}
         return await self.send_stream(f'topic/{topic}', stream, options=data)
 
     async def get_named_data(self, topic: str):
-        return self.get_stream(f'topic/{topic}')
+        return self._get_stream(f'topic/{topic}')

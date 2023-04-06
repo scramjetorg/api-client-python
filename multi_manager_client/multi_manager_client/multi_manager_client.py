@@ -11,7 +11,7 @@ class MultiManagerClient(BaseClient):
         return ManagerClient(f'{self.url.geturl()}/cpm/{id}{manager_api_base}')
     
     async def start_manager(self, config: dict, manager_api_base: str = '/api/v1') -> ManagerClient:
-        resp = await self.post(
+        resp = await self._post(
             url='start',
             headers={'content-type': 'application/json'},
             data=config
@@ -23,4 +23,4 @@ class MultiManagerClient(BaseClient):
 
     async def get_managers(self) -> str:
         url = f'list'
-        return await self.get(url)
+        return await self._get(url)

@@ -28,12 +28,12 @@ class InstanceClient:
         url = f'{self.instance_url}/_stop'
         headers = {'Content-Type': 'application/json'}
         payload = {'timeout': timeout, 'canCallKeepalive': can_keep_alive}
-        return await self.host.post(url, headers=headers, data=payload)
+        return await self.host._post(url, headers=headers, data=payload)
 
     async def kill(self):
         url = f'{self.instance_url}/_kill'
         headers = {'Content-Type': 'application/json'}
-        return await self.host.post(url, headers=headers, data={})
+        return await self.host._post(url, headers=headers, data={})
     
     async def send_event(self, event_name: str, message: str = '') -> str:
         url = f'{self.instance_url}/_event'
@@ -41,23 +41,23 @@ class InstanceClient:
         event_code = 5001
         data = {'eventName': event_name, 'message': message}
         payload = json.dumps([event_code, data])
-        return await self.host.post(url, headers=headers, data=payload)
+        return await self.host._post(url, headers=headers, data=payload)
     
     async def get_next_event(self, id: str) -> str:
         url = f'{self.instance_url}/once/{id}'
-        return await self.host.get(url)
+        return await self.host._get(url)
 
     async def get_event(self, id: str) -> str:
         url = f'{self.instance_url}/event/{id}'
-        return await self.host.get(url)
+        return await self.host._get(url)
     
     async def get_health(self) -> str:
         url = f'{self.instance_url}/health'
-        return await self.host.get(url)
+        return await self.host._get(url)
 
     async def get_info(self) -> str:
         url = f'{self.instance_url}'
-        return await self.host.get(url)
+        return await self.host._get(url)
 
     async def send_stream(self, stream_id: INSTANCE_INPUT_STREAM, stream: str, options: dict = {}):
         url = f'{self.instance_url}/{stream_id}'
