@@ -9,6 +9,14 @@ class MiddlewareClient(BaseClient):
     async def get_manager_client(self, id: str, manager_api_base: str = '/api/v1'):
         return ManagerClient(f'{self.url.geturl()}/space/{id}{manager_api_base}')
 
-    async def get_managers(self) -> str:
+    async def list_managers(self) -> list:
+        """
+        List informations about Managers.
+            
+        Returns
+        -----------
+        list: 
+            List with informations about Managers.
+        """
         url = f'spaces'
         return await self._get(url)

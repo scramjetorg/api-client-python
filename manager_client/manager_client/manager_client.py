@@ -9,19 +9,54 @@ class ManagerClient(BaseClient):
     async def get_host_client(self, id: str, host_api_base: str = '/api/v1') -> HostClient:
         return HostClient(f'{self.url}/sth/{id}{host_api_base}')
 
-    async def get_hosts(self) -> str:
+    async def list_hosts(self) -> list:
+        """
+        List informations about Hosts.
+
+        Returns
+        -----------
+        list: 
+            List with informations about Hosts.
+        """
         url = f'list'
         return await self._get(url)
     
-    async def get_sequences(self) -> str:
+    async def list_sequences(self) -> list:
+        """
+        List informations about Sequences.
+
+        Returns
+        -----------
+        list: 
+            List with informations about Sequences.
+        """
         url = f'sequences'
         return await self._get(url)
     
-    async def get_instances(self) -> str:
+    async def list_instances(self) -> list:
+        """
+        List informations about Instances.
+            
+        Returns
+        -----------
+        list: 
+            List with informations about Instances.
+        """
         url = f'instances'
         return await self._get(url)
 
-    #TODO: to fix
-    async def get_named_data(self, topic: str) -> str:
+    async def get_named_data(self, topic: str):
+        """
+        Retrieves named data from the specified topic and returns the response body.
+
+        Parameters
+        ------------
+        topic: str
+            The topic to get the data from.
+            
+        Returns
+        -----------
+            Async generator with topic data.
+        """
         url = f'topic/{topic}'
-        return await self._get(url)
+        return await self._get_stream(url)

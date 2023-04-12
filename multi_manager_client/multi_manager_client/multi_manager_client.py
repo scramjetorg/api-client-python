@@ -21,6 +21,6 @@ class MultiManagerClient(BaseClient):
             raise Exception(json_data.get('error'))
         return ManagerClient(f"{self.url.geturl()}/cpm/{json_data.get('id')}{manager_api_base}")
 
-    async def get_managers(self) -> str:
+    async def get_managers(self) -> dict:
         url = f'list'
         return await self._get(url)
