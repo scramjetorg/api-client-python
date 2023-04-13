@@ -33,20 +33,22 @@ class BaseClient:
     async def _post(self, url: str, headers = {}, data=None, config=None) -> str:
         async with aiohttp.ClientSession(headers={**BaseClient.headers, **headers}) as session:
             url=url_normalize(f'{self.api_base}/{url}')
-            async with session.post(url, headers=headers, data=json.dumps(data), params=config) as resp:
-                return await resp.text()
+            if type(data) != bytes:
+                data = json.dumps(data)
+            async with session.post(url, headers=headers, data=data, params=config) as resp:
+                return await resp.json()
 
     async def _put(self, url: str, headers = {}, data=None, config=None) -> str:
         async with aiohttp.ClientSession(headers={**BaseClient.headers, **headers}) as session:
             url=url_normalize(f'{self.api_base}/{url}')
             async with session.put(url, headers=headers, data=json.dumps(data), params=config) as resp:
-                return await resp.text()
+                return await resp.json()
 
     async def _delete(self, url: str, headers = {}) -> str:
         async with aiohttp.ClientSession(headers={**BaseClient.headers, **headers}) as session:
             url=url_normalize(f'{self.api_base}/{url}')
             async with session.delete(url, headers=headers) as resp:
-                return await resp.text() 
+                return await resp.json() 
 
     async def get_load_check(self) -> dict:
         """

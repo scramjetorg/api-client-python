@@ -6,12 +6,12 @@ class HostClient(BaseClient):
     A client for communicating with a host server.
 
     Attributes
-    -----------
+    ----------
     url : str
         The URL of the host server.
         
     Methods
-    --------
+    ----------
     get_data(seq_path)
 
     send_stream(url, stream, options)
@@ -24,11 +24,11 @@ class HostClient(BaseClient):
 
     send_sequence(file, app_config = None)
 
-    get_sequence_info(id: str)
+    get_sequence_info(id)
 
-    delete_sequence(id: str)
+    delete_sequence(id)
 
-    get_instance_info(id: str)
+    get_instance_info(id)
 
     get_load_check()
 
@@ -69,43 +69,43 @@ class HostClient(BaseClient):
         config = { 'parse': options.get('parse_response') }
         return await self._post(url, headers, stream, config)
  
-    async def list_sequences(self) -> str:
+    async def list_sequences(self) -> list:
         """
         Lists all the Sequences from the server.
 
         Returns
         ----------
-        str:
+        list:
             Lists of dicts with informations about all Sequences.
         """
         url = f'/sequences'
         return await self._get(url)
 
-    async def list_entities(self) -> str:
+    async def list_entities(self) -> list:
         """
         List all Instances and Sequences from the server.
 
         Returns
         ----------
-        str: 
-            Dict with informations about all entities.
+        list: 
+            Lists of dicts with informations about all entities.
         """
         url = f'entities'
         return await self._get(url) 
 
-    async def list_instances(self) -> str:
+    async def list_instances(self) -> list:
         """
         List all Instances from the server.
 
         Returns
         ----------
-        str: 
+        list: 
             List of dicts with informations about all Instances.
         """
         url = f'instances'
         return await self._get(url)
 
-    async def send_sequence(self, file: bytes, app_config = None) -> str:
+    async def send_sequence(self, file: bytes, app_config = None) -> dict:
         """
         Sends a binary Sequence file to the server.
         
@@ -119,15 +119,12 @@ class HostClient(BaseClient):
 
         Returns
         ----------
-        str: 
-            String with the Sequence ID.
+        dict: 
+            Dict with the Sequence ID.
         """
         url = f'sequence'
-        resp = await self._post(url, data=file)
-        json_resp = json.loads(resp)
-        if 'error' in json_resp:
-            raise Exception(json_resp.get('error'))
-        return json_resp['id']
+        resp = await self._post(url, data=file, config=app_config)
+        return resp
 
     async def get_sequence_info(self, id: str) -> dict:
         """
@@ -199,6 +196,10 @@ class HostClient(BaseClient):
 
         end: bool
             Indicates whether or not this is the last chunk of data in the stream.
+
+        Returns
+        -----------
+            ??
         """
         data = {'type': content_type, 'end': str(end), 'parse_response': 'stream'}
         return await self._send_stream(f'topic/{topic}', stream, options=data)

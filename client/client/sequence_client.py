@@ -15,14 +15,15 @@ class SequenceClient:
         The client for the remote host where the Sequence is located.
 
     Methods
+    ----------
+    
+    start()
 
-    start() -> str:
+    list_instances()
 
-    list_instances() -> str:
+    get_instance(id, host)
 
-    get_instance(id: str, host: HostClient ) -> InstanceClient:
-
-    get_info() -> str:
+    get_info()
 
     -------
     """

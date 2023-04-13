@@ -2,12 +2,12 @@ from client.host_client import HostClient
 import json
 
 
-INSTANCE_OUTPUT_STREAM = (
-    'stdout',
-    'stderr',
-    'output',
-    'log'
-)
+# INSTANCE_OUTPUT_STREAM = (
+#     'stdout',
+#     'stderr',
+#     'output',
+#     'log'
+# )
 
 class InstanceClient:
     """
@@ -21,7 +21,8 @@ class InstanceClient:
         The client for the remote host where the Sequence is located.
 
     Methods
-
+    ----------
+    
     stop(timeout, can_keep_alive)
 
     kill()
@@ -39,7 +40,6 @@ class InstanceClient:
     send_stdin(stream)
 
     send_input(stream, options)
-
 
     -------
     """
@@ -86,7 +86,7 @@ class InstanceClient:
         headers = {'Content-Type': 'application/json'}
         return await self.host._post(url, headers=headers, data={})
     
-    async def send_event(self, event_name: str, message: str = '') -> str:
+    async def send_event(self, event_name: str, message: str = '') -> dict:
         """
         Sends event to the Instance
 
@@ -99,8 +99,8 @@ class InstanceClient:
 
         Returns
         -----------
-        str: 
-            String with the response  
+        dict: 
+            Dict with the response  
         """
         url = f'{self.instance_url}/_event'
         headers = {"Content-Type": "application/json"}
@@ -109,14 +109,14 @@ class InstanceClient:
         payload = json.dumps([event_code, data])
         return await self.host._post(url, headers=headers, data=payload)
     
-    async def get_next_event(self) -> str:
+    async def get_next_event(self) -> dict:
         """
         Get the last event sent by the Instance
 
         Returns
         -----------
-        str: 
-            String with the response  
+        dict: 
+            Dict with the response  
         """
         url = f'{self.instance_url}/once'
         return self.host._get(url)
@@ -163,7 +163,6 @@ class InstanceClient:
             
         Returns
         -----------
-        str: 
         """
         url = f'{self.instance_url}/input'
         return await self.host._send_stream(url, stream, options)
@@ -179,7 +178,6 @@ class InstanceClient:
 
         Returns
         -----------
-        str: 
         """
 
         url = f'{self.instance_url}/stdin'
