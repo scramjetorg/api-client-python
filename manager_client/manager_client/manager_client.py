@@ -1,51 +1,64 @@
 from client.host_client import HostClient
-from urllib.parse import urlparse
-
-import aiohttp
+from client_utils.base_client import BaseClient
 
 
-class ManagerClient:
-    def __init__(self, url: str):
-        self.url = urlparse(url)
-    
-    async def get(self, url: str) -> str:
-        async with aiohttp.ClientSession() as session:
-            url = f'{self.url.geturl()}{url}'
-            async with session.get(url) as resp:
-                return await resp.text()
+class ManagerClient(BaseClient):
+    def __init__(self, url: str) -> None:
+        super().__init__(url=url)
 
-    async def get_host_client(self, id: str, host_api_base: str = '/api/v1'):
-        return HostClient(self.url.geturl() + '/sth/' + id + host_api_base)
+    async def get_host_client(self, id: str, host_api_base: str = '/api/v1') -> HostClient:
+        return HostClient(f'{self.url}/sth/{id}{host_api_base}')
 
-    async def get_hosts(self) -> str:
+    async def list_hosts(self) -> list:
+        """
+        List informations about Hosts.
+
+        Returns
+        -----------
+        list: 
+            List with informations about Hosts.
+        """
         url = f'list'
-        return await self.get(url)
+        return await self._get(url)
     
-    async def get_version(self) -> str:
-        url = f'version'
-        return await self.get(url)
-    
-    async def get_load(self) -> str:
-        url = f'load'
-        return await self.get(url)
-    
-    async def get_config(self) -> str:
-        url = f'config'
-        return await self.get(url)
-    
-    async def get_sequences(self) -> str:
-        url = f'sequences'
-        return await self.get(url)
-    
-    async def get_instances(self) -> str:
-        url = f'instances'
-        return await self.get(url)
+    async def list_sequences(self) -> list:
+        """
+        List informations about Sequences.
 
-    #TODO: to fix
-    async def get_named_data(self, topic) -> str:
-        url = f'topic/{topic}'
-        return await self.get(url)
+        Returns
+        -----------
+        list: 
+            List with informations about Sequences.
+        """
+        url = f'sequences'
+        return await self._get(url)
     
-    async def get_log_stream(self) -> str:
-        url = f'log'
-        return await self.get(url)
+    async def list_instances(self) -> list:
+        """
+        List informations about Instances.
+            
+        Returns
+        -----------
+        list: 
+            List with informations about Instances.
+        """
+        url = f'instances'
+        return await self._get(url)
+
+    async def get_named_data(self, topic: str):
+        """
+        Retrieves named data from the specified topic and yields the response body.
+	Should be called as async generator.
+	
+        Parameters
+        ------------
+        topic: str
+            The topic to get the data from.
+            
+        Returns
+        -----------
+        str:
+            String with topic data (UTF-8).
+        """
+        url = f'topic/{topic}'
+        return self._get_stream(url)
