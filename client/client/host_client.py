@@ -154,8 +154,8 @@ class HostClient(BaseClient):
             
         Returns
         -----------
-        str: 
-            The text of the response.
+        dict: 
+            Dict with result of the deletion.
         """
         url = f'sequence/{id}'
         headers = {'Content-Type': 'application/json'}
@@ -206,8 +206,9 @@ class HostClient(BaseClient):
 
     async def get_named_data(self, topic: str):
         """
-        Retrieves named data from the specified topic and returns the response body.
-
+        Retrieves named data from the specified topic and yields the response body.
+	Should be called as async generator.
+	
         Parameters
         ------------
         topic: str
@@ -215,6 +216,7 @@ class HostClient(BaseClient):
 
         Returns
         -----------
-            Async generator with topic data.
+        str:
+            String with topic data (UTF-8).
         """
         return self._get_stream(f'topic/{topic}')

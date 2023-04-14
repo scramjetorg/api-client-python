@@ -1,6 +1,6 @@
 from manager_client.manager_client.manager_client import ManagerClient
-import json
 from client_utils.base_client import BaseClient
+import json
 
 
 class MultiManagerClient(BaseClient):
@@ -17,8 +17,6 @@ class MultiManagerClient(BaseClient):
             data=config
         )
         json_data = json.loads(resp)
-        if 'error' in json_data:
-            raise Exception(json_data.get('error'))
         return ManagerClient(f"{self.url.geturl()}/cpm/{json_data.get('id')}{manager_api_base}")
 
     async def get_managers(self) -> dict:

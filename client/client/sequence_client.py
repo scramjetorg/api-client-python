@@ -48,8 +48,6 @@ class SequenceClient:
         headers = {'Content-Type': 'application/json'}    
         resp = await self.host._post(url, headers=headers, data={})
         json_resp = json.loads(resp)
-        if 'error' in json_resp:
-            raise Exception(json_resp.get('error'))
         return InstanceClient(json_resp['id'], host=self.host)
         
     

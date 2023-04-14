@@ -1,14 +1,15 @@
-import aiohttp
 from urllib.parse import urlparse
 from url_normalize import url_normalize
+import aiohttp
 import json
 
 
 class BaseClient:
+    headers = {}
+    
     def __init__(self, url: str) -> None:
         self.url = urlparse(url)
         self.api_base = url
-    headers = {}
 
     def __repr__(self) -> str:
         return f'host: {self.host}, API base: {self.api_base}, headers: {self.headers}'
@@ -76,13 +77,13 @@ class BaseClient:
    
     async def get_log_stream(self) -> str:
         """
-        Retrieves the log stream of the host.
+        Retrieves and yields logs from the host.
         Should be called as async generator.
 
         Returns
         -----------
         str: 
-            String with stream logs.
+            String with stream logs (UTF-8).
         """
         url = f'log'
         return self._get_stream(url)

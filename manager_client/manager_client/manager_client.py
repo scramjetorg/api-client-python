@@ -47,8 +47,9 @@ class ManagerClient(BaseClient):
 
     async def get_named_data(self, topic: str):
         """
-        Retrieves named data from the specified topic and returns the response body.
-
+        Retrieves named data from the specified topic and yields the response body.
+	Should be called as async generator.
+	
         Parameters
         ------------
         topic: str
@@ -56,7 +57,8 @@ class ManagerClient(BaseClient):
             
         Returns
         -----------
-            Async generator with topic data.
+        str:
+            String with topic data (UTF-8).
         """
         url = f'topic/{topic}'
-        return await self._get_stream(url)
+        return self._get_stream(url)
