@@ -15,46 +15,46 @@ class ManagerClient(BaseClient):
 
         Returns
         -----------
-        list: 
+        list:
             List with informations about Hosts.
         """
-        url = f'list'
+        url = 'list'
         return await self._get(url)
-    
+
     async def list_sequences(self) -> list:
         """
         List informations about Sequences.
 
         Returns
         -----------
-        list: 
+        list:
             List with informations about Sequences.
         """
-        url = f'sequences'
+        url = 'sequences'
         return await self._get(url)
-    
+
     async def list_instances(self) -> list:
         """
         List informations about Instances.
-            
+
         Returns
         -----------
-        list: 
+        list:
             List with informations about Instances.
         """
-        url = f'instances'
+        url = 'instances'
         return await self._get(url)
 
     async def get_named_data(self, topic: str):
         """
         Retrieves named data from the specified topic and yields the response body.
-	Should be called as async generator.
-	
+        Should be called as async generator.
+
         Parameters
         ------------
         topic: str
             The topic to get the data from.
-            
+
         Returns
         -----------
         str:

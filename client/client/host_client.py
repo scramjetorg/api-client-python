@@ -1,5 +1,5 @@
 from client_utils.base_client import BaseClient
-import json
+
 
 class HostClient(BaseClient):
     """
@@ -9,7 +9,7 @@ class HostClient(BaseClient):
     ----------
     url : str
         The URL of the host server.
-        
+
     Methods
     ----------
     get_data(seq_path)
@@ -43,7 +43,7 @@ class HostClient(BaseClient):
 
     def __init__(self, url: str) -> None:
         super().__init__(url=url)
-    
+
     async def load_sequence(self, seq_path: str) -> bytes:
         """
         Read the Sequence and return it as bytes.
@@ -51,7 +51,7 @@ class HostClient(BaseClient):
         Parameters
         ----------
         seq_path : str
-            Path to the Sequence
+            Path to the Sequence.
 
         Returns
         ----------
@@ -60,15 +60,15 @@ class HostClient(BaseClient):
         """
         with open(seq_path, 'rb') as f:
             return f.read()
-    
+
     async def _send_stream(self, url: str, stream: str, options: dict):
         headers = {
             'content-type': options.get('type'),
             'x-end-stream': options.get('end')
         }
-        config = { 'parse': options.get('parse_response') }
+        config = {'parse': options.get('parse_response')}
         return await self._post(url, headers, stream, config)
- 
+
     async def list_sequences(self) -> list:
         """
         Lists all the Sequences from the server.
@@ -78,7 +78,7 @@ class HostClient(BaseClient):
         list:
             Lists of dicts with informations about all Sequences.
         """
-        url = f'/sequences'
+        url = '/sequences'
         return await self._get(url)
 
     async def list_entities(self) -> list:
@@ -87,11 +87,11 @@ class HostClient(BaseClient):
 
         Returns
         ----------
-        list: 
+        list:
             Lists of dicts with informations about all entities.
         """
-        url = f'entities'
-        return await self._get(url) 
+        url = 'entities'
+        return await self._get(url)
 
     async def list_instances(self) -> list:
         """
@@ -99,32 +99,37 @@ class HostClient(BaseClient):
 
         Returns
         ----------
-        list: 
+        list:
             List of dicts with informations about all Instances.
         """
-        url = f'instances'
+        url = 'instances'
         return await self._get(url)
 
-    async def send_sequence(self, file: bytes, app_config = None) -> dict:
+    async def send_sequence(self, file: bytes, app_config=None) -> 'SequenceClient':
         """
         Sends a binary Sequence file to the server.
-        
+
         Parameters
         -----------
         file: bytes
             The Sequence (binary).
 
-        app_config: 
+        app_config:
             The configuration settings for the request.
 
         Returns
         ----------
-        dict: 
-            Dict with the Sequence ID.
+        SequenceClient:
+            SequenceClient object.
         """
-        url = f'sequence'
+        from client.sequence_client import SequenceClient
+        url = 'sequence'
         resp = await self._post(url, data=file, config=app_config)
-        return resp
+        try:
+            id = resp['id']
+            return SequenceClient(id, self)
+        except KeyError:
+            raise ValueError(resp['error'])
 
     async def get_sequence_info(self, id: str) -> dict:
         """
@@ -134,10 +139,10 @@ class HostClient(BaseClient):
         -----------
         id: str
             The ID of the Sequence.
-            
+
         Returns
         -----------
-        dict: 
+        dict:
             Dict with information about the Sequence.
         """
         url = f'sequence/{id}'
@@ -151,10 +156,10 @@ class HostClient(BaseClient):
         -----------
         id: str
             The ID of the Sequence.
-            
+
         Returns
         -----------
-        dict: 
+        dict:
             Dict with result of the deletion.
         """
         url = f'sequence/{id}'
@@ -169,10 +174,10 @@ class HostClient(BaseClient):
         -----------
         id: str
             The ID of the Instance.
-            
+
         Returns
         -----------
-        dict: 
+        dict:
             Dict with information about the Instance.
         """
         url = f'instance/{id}'
@@ -207,8 +212,8 @@ class HostClient(BaseClient):
     async def get_named_data(self, topic: str):
         """
         Retrieves named data from the specified topic and yields the response body.
-	Should be called as async generator.
-	
+        Should be called as async generator.
+
         Parameters
         ------------
         topic: str

@@ -22,7 +22,7 @@ class InstanceClient:
 
     Methods
     ----------
-    
+
     stop(timeout, can_keep_alive)
 
     kill()
@@ -61,12 +61,12 @@ class InstanceClient:
             Number of milliseconds before the Instance will be killed.
 
         can_keep_alive: bool
-            If true, the Instance will prolong the running    
+            If true, the Instance will prolong the running.
 
         Returns
         -----------
-        str: 
-            String with the response
+        str:
+            String with the response.
         """
         url = f'{self.instance_url}/_stop'
         headers = {'Content-Type': 'application/json'}
@@ -75,51 +75,52 @@ class InstanceClient:
 
     async def kill(self) -> str:
         """
-        Kills the Instance immediately
+        Kills the Instance immediately.
 
         Returns
         -----------
-        str: 
-            String with the response  
+        str:
+            String with the response.
         """
         url = f'{self.instance_url}/_kill'
         headers = {'Content-Type': 'application/json'}
         return await self.host._post(url, headers=headers, data={})
-    
+
     async def send_event(self, event_name: str, message: str = '') -> dict:
         """
-        Sends event to the Instance
+        Sends event to the Instance.
 
         Parameters
         -----------
         event_name: str
-            Name of an event	
+            Name of an event.
         message: str
-            Event payload
+            Event payload.
 
         Returns
         -----------
-        dict: 
-            Dict with the response  
+        dict:
+            Dict with the response.
         """
         url = f'{self.instance_url}/_event'
-        headers = {"Content-Type": "application/json"}
+        headers = {'Content-Type': 'application/json'}
         event_code = 5001
-        data = {'eventName': event_name, 'message': message}
-        payload = json.dumps([event_code, data])
-        return await self.host._post(url, headers=headers, data=payload)
-    
+        data = {'eventName': event_name, 'messagee': message}
+        payload = [event_code, data]
+        params = json.dumps({'json': 'true', 'parse': 'json'})
+        return await self.host._post(url, headers=headers, data=payload, config=params)
+
     async def get_next_event(self) -> dict:
         """
-        Get the last event sent by the Instance
+        Get the last event sent by the Instance.
 
         Returns
         -----------
-        dict: 
-            Dict with the response  
+        dict:
+            Dict with the response.
         """
         url = f'{self.instance_url}/once'
-        return self.host._get(url)
+        return await self.host._get(url)
 
     async def get_event_stream(self) -> str:
         """
@@ -127,19 +128,19 @@ class InstanceClient:
 
         Returns
         -----------
-        str: 
+        str:
             String with the response.
         """
         url = f'{self.instance_url}/event'
         return await self.host._get_stream(url)
-    
+
     async def get_health(self) -> dict:
         """
         Check status about Instance health.
 
         Returns
         -----------
-        dict: 
+        dict:
             Dict with the Instance's health status
         """
         url = f'{self.instance_url}/health'
@@ -148,10 +149,10 @@ class InstanceClient:
     async def get_info(self) -> dict:
         """
         Get informations about the Instance.
-            
+
         Returns
         -----------
-        dict: 
+        dict:
             Dict with information about the Instance.
         """
         url = f'{self.instance_url}'
@@ -160,21 +161,21 @@ class InstanceClient:
     async def send_input(self, stream: str, options: str = {}):
         """
         Send data to the input stream of the Instance to consume it
-            
+
         Returns
         -----------
         """
         url = f'{self.instance_url}/input'
         return await self.host._send_stream(url, stream, options)
-    
+
     async def send_stdin(self, stream: str):
         """
-        Send to process.stdin.
+        Send to `process.stdin`.
 
         Parameters
         -----------
         stream: str
-            Name of an event	
+            Name of an event.
 
         Returns
         -----------
