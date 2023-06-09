@@ -1,1 +1,2 @@
--e ../client
+-e client
+behave==1.2.6

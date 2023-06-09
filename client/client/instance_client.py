@@ -166,7 +166,9 @@ class InstanceClient:
         -----------
         """
         url = f'{self.instance_url}/input'
-        return await self.host._send_stream(url, stream, options)
+        data = {'type': 'text/plain', 'end': 'True', 'parse_response': 'stream'}
+        data.update(options)
+        return await self.host._send_stream(url, stream, data)
 
     async def send_stdin(self, stream: str):
         """
