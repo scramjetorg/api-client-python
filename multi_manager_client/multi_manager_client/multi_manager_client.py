@@ -1,5 +1,5 @@
 from client_utils.base_client import BaseClient
-from manager_client.manager_client.manager_client import ManagerClient
+from manager_client.manager_client import ManagerClient
 import json
 
 
