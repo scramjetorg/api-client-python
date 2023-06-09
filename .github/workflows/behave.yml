@@ -1,0 +1,42 @@
+name: Behave Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install Python dependencies
+        run: |
+            pip install -r client/requirements_dev.txt
+        
+            pip install -r middleware_client/requirements_dev.txt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Check Python version and packages
+        run: |
+          python --version
+          pip list
+
+      - name: Run Behave client tests
+        run: |
+          cd client
+          behave
+
+      - name: Run Behave middleware tests
+        run: |
+          cd middleware_client
+          behave
