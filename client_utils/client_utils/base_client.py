@@ -101,3 +101,15 @@ class BaseClient:
         """
         url = 'config'
         return await self._get(url)
+    
+    async def get_status(self) -> dict:
+        """
+        Gets the status of the STH.
+
+        Returns
+        -----------
+        dict:
+            Dict with cpm info.
+        """
+        url = 'status'
+        return await self._get(url)
